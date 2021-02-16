@@ -1,7 +1,7 @@
 <template>
   <input type="text">
   <div>
-    {{h1}}
+    {{info}}
   </div>
 </template>
 
@@ -11,9 +11,15 @@ export default {
   name: 'TypingArea',
   data() {
     return {
-      h1: "Тренажер слепой печати"
+      h1: "Тренажер слепой печати",
+      info: null
     }
   },
+  mounted() {
+    this.axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+      .then(response => (this.info = response));
+  }
+  //Обработка ошибок
   
 }
 </script>
