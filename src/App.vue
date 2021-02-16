@@ -1,15 +1,15 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <TypingArea></TypingArea>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TypingArea from './components/TypingArea.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    TypingArea
   }
 }
 </script>
