@@ -1,7 +1,7 @@
 <template>
   <input type="text">
   <div>
-    {{info}}
+    <span v-for="(letter, index) in text" :key="index">{{letter}}</span>
   </div>
 </template>
 
@@ -11,16 +11,24 @@ export default {
   name: 'TypingArea',
   data() {
     return {
-      h1: "Тренажер слепой печати",
-      info: null
+      text: '',
+      numberOfSentences: 8,
+      loading: true,
+      errored: false
     }
   },
   mounted() {
-    this.axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
-      .then(response => (this.info = response));
+    this.axios
+      .get('http://metaphorpsum.com/sentences/' + this.numberOfSentences)
+      .then(response => {
+        this.text = response.data;
+      })
+      .catch(error => {
+        console.log(error);
+        this.errored = true;
+      }) 
+      .finally(() => (this.loading = false));
   }
-  //Обработка ошибок
-  
 }
 </script>
 

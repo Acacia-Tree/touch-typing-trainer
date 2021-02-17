@@ -1,5 +1,8 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
+  <header>
+    <h1>Тренажер слепой печати</h1>
+  </header>
+  
   <TypingArea></TypingArea>
 </template>
 
