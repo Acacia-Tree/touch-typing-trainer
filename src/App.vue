@@ -3,7 +3,7 @@
     <h1>Тренажер слепой печати</h1>
   </header>
   
-  <TypingArea></TypingArea>
+  <TypingArea/>
 </template>
 
 <script>
