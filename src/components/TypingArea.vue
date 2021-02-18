@@ -12,24 +12,26 @@
     :key="index"
     >{{letter}}</span>
   </div>
-  <div>{{formattedTypingAccuracy}}</div>
-  <div>typing speed: {{formattedPureTypingSpeed}}</div>
+  <TypingAreaStats :formattedTypingAccuracy="formattedTypingAccuracy" :formattedPureTypingSpeed="formattedPureTypingSpeed"/>
+  
   <TypingAreaMenu @on-start="startTypingTest" @on-restart="restartTypingTest"/>
 </template>
 
 <script>
 import TypingAreaMenu from '../components/TypingAreaMenu.vue';
+import TypingAreaStats from '../components/TypingAreaStats.vue';
 
 export default {
   name: 'TypingArea',
   components: {
-    TypingAreaMenu
+    TypingAreaMenu,
+    TypingAreaStats
   },
   data() {
     return {
       text: '',
       typedTextArray: [],
-      numberOfSentences: 8,
+      numberOfSentences: 1,
       numberOfTypos: 0,
       typingTimer: null,
       minutesSpentTyping: 0,/////
@@ -49,6 +51,7 @@ export default {
       .get('http://metaphorpsum.com/sentences/' + this.numberOfSentences)
       .then(response => {
         this.text = response.data;
+        console.log(typeof this.text);
       })
       .catch(error => {
         console.log(error);
@@ -81,7 +84,10 @@ export default {
       this.minutesSpentTyping = 0;
       this.typingTimer = null,
       this.startTypingTest();
-      
+    },
+    finishedTypingTest() {
+
+      console.log("yay");
     }
   },
   computed: {
@@ -98,7 +104,11 @@ export default {
       }
     },
     typingAccuracy() {
-      this.isTypedTextCorrect;
+      if (this.isTypedTextCorrect == true && this.typedTextArray.length === this.text.length) {
+        this.finishedTypingTest();
+      }
+      console.log("text from ac: " + this.text.length);
+      console.log("typedtext from ac: " + this.typedTextArray.length);
       if (this.minutesSpentTyping === 0 || !(this.typedTextArray.length > 0) ) {
         return 100;
       } else if ((this.typedTextArray.length - this.numberOfTypos) <= 0) {
