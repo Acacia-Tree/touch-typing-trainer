@@ -1,4 +1,6 @@
 <template>
+  <TypingAreaResultSign :formattedTypingAccuracy="formattedTypingAccuracy" :formattedPureTypingSpeed="formattedPureTypingSpeed"/>
+  
   <input 
   type="text" 
   disabled
@@ -12,7 +14,7 @@
     :key="index"
     >{{letter}}</span>
   </div>
-  
+
   <TypingAreaStats :formattedTypingAccuracy="formattedTypingAccuracy" :formattedPureTypingSpeed="formattedPureTypingSpeed"/>
   <TypingAreaMenu @on-start="startTypingTest" @on-restart="restartTypingTest"/>
   
@@ -21,15 +23,14 @@
 <script>
 import TypingAreaMenu from '../components/TypingAreaMenu.vue';
 import TypingAreaStats from '../components/TypingAreaStats.vue';
-/*import TypingAreaResultSign from '../components/TypingAreaResultSign.vue';
-<TypingAreaResultSign/>*/
+import TypingAreaResultSign from '../components/TypingAreaResultSign.vue';
 
 export default {
   name: 'TypingArea',
   components: {
     TypingAreaMenu,
     TypingAreaStats,
-    //TypingAreaResultSign
+    TypingAreaResultSign
   },
   data() {
     return {

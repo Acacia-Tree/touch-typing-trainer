@@ -2,7 +2,9 @@
   <div class="typing-area__result-sign-wrapper">
     <div class="typing-area__result-sign">
       <div class="typing-area__result-sign-text">
-          <span></span>
+          <span>Поздравляем с результатами!</span>
+          <span>У вас точность {{formattedTypingAccuracy}}</span>
+          <span>А скорость аж {{formattedPureTypingSpeed}} !</span> 
       </div>
     </div>
   </div>
@@ -11,6 +13,10 @@
 <script>
 export default {
   name: 'TypingAreaResultSign',
+  props: {
+    formattedTypingAccuracy: String,
+    formattedPureTypingSpeed: String
+  }
 }
 </script>
 
