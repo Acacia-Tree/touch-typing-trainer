@@ -63,9 +63,6 @@ export default {
         this.minutesSpentTyping += 1/60;
       }, 1000); 
     },
-    focusOnInput() {//focus on hidden input
-      this.$refs['typing-input'].focus();    
-    },
     keyMonitor(event) {
       if (event.key != "Shift" && event.key != "Enter") {//не ошибка
         this.typedTextArray.push(event.key);

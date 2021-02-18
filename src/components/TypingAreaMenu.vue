@@ -6,7 +6,7 @@
     name="start" 
     @click="onStart"
     >Начать</button>
-    
+
   </div>
 </template>
 
