@@ -4,9 +4,15 @@
     <button 
     type="button" 
     name="start" 
+    ref="start-button"
     @click="onStart"
     >Начать</button>
 
+    <button 
+    type="button" 
+    name="restart" 
+    @click="onRestart"
+    >Заново</button>
   </div>
 </template>
 
@@ -21,6 +27,9 @@ export default {
   methods: {
     onStart() {
       this.$emit('on-start');
+    },
+    onRestart() {
+      this.$emit('on-restart');
     }
   }
 }

@@ -4,17 +4,17 @@
   disabled
   ref="typing-input" 
   class="typing-area__input"
-  @keydown="keyMonitor"
-  >
+  @keydown="keyMonitor">
+  
   <div>
     <span 
     v-for="(letter, index) in text" 
     :key="index"
     >{{letter}}</span>
   </div>
-  <div ref="typing-accuracy">{{formattedTypingAccuracy}}</div>
-  <div ref="typing-speed">typing speed: {{formattedPureTypingSpeed}}</div>
-  <TypingAreaMenu @on-start="startTypingTest"/>
+  <div>{{formattedTypingAccuracy}}</div>
+  <div>typing speed: {{formattedPureTypingSpeed}}</div>
+  <TypingAreaMenu @on-start="startTypingTest" @on-restart="restartTypingTest"/>
 </template>
 
 <script>
@@ -32,13 +32,20 @@ export default {
       numberOfSentences: 8,
       numberOfTypos: 0,
       typingTimer: null,
-      minutesSpentTyping: 0,
+      minutesSpentTyping: 0,/////
       loading: true,
       errored: false
     }
   },
   mounted() {
-    this.axios
+    this.getText();
+  },
+  beforeUnmount() {
+    clearInterval(this.typingTimer);
+  },
+  methods: {
+    getText() {
+      this.axios
       .get('http://metaphorpsum.com/sentences/' + this.numberOfSentences)
       .then(response => {
         this.text = response.data;
@@ -48,20 +55,13 @@ export default {
         this.errored = true;
       }) 
       .finally(() => (this.loading = false));
-
-    this.$refs['typing-accuracy'].textContent = "100%";
-    this.$refs['typing-speed'].textContent = "0 зн./мин";
-  },
-  beforeUnmount() {
-    clearInterval(this.typingTimer);
-  },
-  methods: {
+    },
     startTypingTest() {
-      this.$refs['typing-input'].disabled = false;
-      this.$refs['typing-input'].focus(); 
       this.typingTimer = setInterval(() => {
         this.minutesSpentTyping += 1/60;
       }, 1000); 
+      this.$refs['typing-input'].disabled = false;
+      this.$refs['typing-input'].focus(); 
     },
     keyMonitor(event) {
       if (event.key != "Shift" && event.key != "Enter") {//не ошибка
@@ -71,6 +71,17 @@ export default {
     handleTypo() {
       this.typedTextArray.pop();
       this.numberOfTypos++;
+    },
+    restartTypingTest() {
+      this.getText();
+      clearInterval(this.typingTimer);
+      this.$refs['typing-input'].value = ''; 
+      this.typedTextArray = [];
+      this.numberOfTypos = 0;
+      this.minutesSpentTyping = 0;
+      this.typingTimer = null,
+      this.startTypingTest();
+      
     }
   },
   computed: {
@@ -88,7 +99,9 @@ export default {
     },
     typingAccuracy() {
       this.isTypedTextCorrect;
-      if ((this.typedTextArray.length - this.numberOfTypos) <= 0) {
+      if (this.minutesSpentTyping === 0 || !(this.typedTextArray.length > 0) ) {
+        return 100;
+      } else if ((this.typedTextArray.length - this.numberOfTypos) <= 0) {
         return 0;
       } else {
         return (((this.typedTextArray.length - this.numberOfTypos + 1) / (this.typedTextArray.length + 1)) * 100);
@@ -101,7 +114,11 @@ export default {
       return (this.typedTextArray.length + this.numberOfTypos) / this.minutesSpentTyping;
     },
     pureTypingSpeed() {//Чистая CPM = CPM - ( Знаки с ошибками / Затраченное время в минутах )
-      return (this.typingSpeed - (this.numberOfTypos / this.minutesSpentTyping));
+      if (this.minutesSpentTyping === 0 || !(this.typedTextArray.length > 0) ) {
+        return 0;
+      } else {
+        return (this.typingSpeed - (this.numberOfTypos / this.minutesSpentTyping));
+      }
     },
     formattedPureTypingSpeed() {
       return Math.round(this.pureTypingSpeed) + ' зн./мин'
