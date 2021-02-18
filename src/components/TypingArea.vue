@@ -1,6 +1,7 @@
 <template>
   <input 
   type="text" 
+  disabled
   ref="typing-input" 
   class="typing-area__input"
   @keydown="keyMonitor"
@@ -56,8 +57,8 @@ export default {
   },
   methods: {
     startTypingTest() {
-      this.focusOnInput();
-      console.log("initial minutes:" + this.minutesSpentTyping);
+      this.$refs['typing-input'].disabled = false;
+      this.$refs['typing-input'].focus(); 
       this.typingTimer = setInterval(() => {
         this.minutesSpentTyping += 1/60;
       }, 1000); 
@@ -108,8 +109,6 @@ export default {
     formattedPureTypingSpeed() {
       return Math.round(this.pureTypingSpeed) + ' зн./мин'
     }
-    
-
     
   }
 }
