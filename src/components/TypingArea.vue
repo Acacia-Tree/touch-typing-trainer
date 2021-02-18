@@ -12,6 +12,7 @@
     >{{letter}}</span>
   </div>
   <div ref="typing-accuracy">{{formattedTypingAccuracy}}</div>
+  <div ref="typing-speed">typing speed: {{formattedPureTypingSpeed}}</div>
   <TypingAreaMenu @on-start="startTypingTest"/>
 </template>
 
@@ -48,6 +49,7 @@ export default {
       .finally(() => (this.loading = false));
 
     this.$refs['typing-accuracy'].textContent = "100%";
+    this.$refs['typing-speed'].textContent = "0 зн./мин";
   },
   beforeUnmount() {
     clearInterval(this.typingTimer);
@@ -57,8 +59,8 @@ export default {
       this.focusOnInput();
       console.log("initial minutes:" + this.minutesSpentTyping);
       this.typingTimer = setInterval(() => {
-        this.minutesSpentTyping += 1;
-      }, 60 * 1000); 
+        this.minutesSpentTyping += 1/60;
+      }, 1000); 
     },
     focusOnInput() {//focus on hidden input
       this.$refs['typing-input'].focus();    
@@ -88,9 +90,6 @@ export default {
     },
     typingAccuracy() {
       this.isTypedTextCorrect;
-      console.log("typos: " + this.numberOfTypos);
-      console.log("typedTextlength: " + this.typedTextArray.length);
-      console.log("typedText: " + this.typedTextArray);
       if ((this.typedTextArray.length - this.numberOfTypos) <= 0) {
         return 0;
       } else {
@@ -99,6 +98,15 @@ export default {
     },
     formattedTypingAccuracy() {
       return (this.typingAccuracy % 1 === 0)? (this.typingAccuracy + '%') : (this.typingAccuracy.toFixed(1) + '%');
+    },
+    typingSpeed() {//CPM = ( Знаки без ошибки + Знаки с ошибками ) / Затраченное время в минутах
+      return (this.typedTextArray.length + this.numberOfTypos) / this.minutesSpentTyping;
+    },
+    pureTypingSpeed() {//Чистая CPM = CPM - ( Знаки с ошибками / Затраченное время в минутах )
+      return (this.typingSpeed - (this.numberOfTypos / this.minutesSpentTyping));
+    },
+    formattedPureTypingSpeed() {
+      return Math.round(this.pureTypingSpeed) + ' зн./мин'
     }
     
 
