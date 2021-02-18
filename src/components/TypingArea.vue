@@ -12,28 +12,33 @@
     :key="index"
     >{{letter}}</span>
   </div>
+  
   <TypingAreaStats :formattedTypingAccuracy="formattedTypingAccuracy" :formattedPureTypingSpeed="formattedPureTypingSpeed"/>
   <TypingAreaMenu @on-start="startTypingTest" @on-restart="restartTypingTest"/>
+  
 </template>
 
 <script>
 import TypingAreaMenu from '../components/TypingAreaMenu.vue';
 import TypingAreaStats from '../components/TypingAreaStats.vue';
+/*import TypingAreaResultSign from '../components/TypingAreaResultSign.vue';
+<TypingAreaResultSign/>*/
 
 export default {
   name: 'TypingArea',
   components: {
     TypingAreaMenu,
-    TypingAreaStats
+    TypingAreaStats,
+    //TypingAreaResultSign
   },
   data() {
     return {
       text: '',
       typedTextArray: [],
-      numberOfSentences: 8,
+      numberOfSentences: 1,
       numberOfTypos: 0,
       typingTimer: null,
-      minutesSpentTyping: 0,/////
+      minutesSpentTyping: 0,
       loading: true,
       errored: false
     }
@@ -84,8 +89,8 @@ export default {
       this.startTypingTest();
     },
     finishedTypingTest() {
-
-      console.log("yay");
+      clearInterval(this.typingTimer);
+      this.$refs['typing-input'].readonly = true;
     }
   },
   computed: {
@@ -101,11 +106,14 @@ export default {
         return true;
       }
     },
+    noTypingDataYet() {
+      return (this.minutesSpentTyping === 0 || !(this.typedTextArray.length > 0));
+    },
     typingAccuracy() {
-      if (this.isTypedTextCorrect == true && this.typedTextArray.length === this.text.length) {
+      if (this.isTypedTextCorrect == true && this.text.length != 0 && this.typedTextArray.length === this.text.length) {
         this.finishedTypingTest();
       }
-      if (this.minutesSpentTyping === 0 || !(this.typedTextArray.length > 0) ) {
+      if (this.noTypingDataYet) {
         return 100;
       } else if ((this.typedTextArray.length - this.numberOfTypos) <= 0) {
         return 0;
@@ -120,7 +128,7 @@ export default {
       return (this.typedTextArray.length + this.numberOfTypos) / this.minutesSpentTyping;
     },
     pureTypingSpeed() {//Чистая CPM = CPM - ( Знаки с ошибками / Затраченное время в минутах )
-      if (this.minutesSpentTyping === 0 || !(this.typedTextArray.length > 0) ) {
+      if (this.noTypingDataYet) {
         return 0;
       } else {
         return (this.typingSpeed - (this.numberOfTypos / this.minutesSpentTyping));
@@ -128,7 +136,8 @@ export default {
     },
     formattedPureTypingSpeed() {
       return Math.round(this.pureTypingSpeed) + ' зн./мин'
-    }
+    },
+
     
   }
 }

@@ -1,6 +1,7 @@
 <template>
   <div>
     <span>{{formattedTypingAccuracy}} </span>
+    <br>
     <span> {{formattedPureTypingSpeed}}</span>
   </div>
 </template>
