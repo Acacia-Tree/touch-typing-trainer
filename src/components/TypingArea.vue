@@ -12,7 +12,7 @@
     >{{letter}}</span>
   </div>
   <div ref="typing-accuracy">{{formattedTypingAccuracy}}</div>
-  <TypingAreaMenu @on-start="focusOnInput"/>
+  <TypingAreaMenu @on-start="startTypingTest"/>
 </template>
 
 <script>
@@ -29,6 +29,8 @@ export default {
       typedTextArray: [],
       numberOfSentences: 8,
       numberOfTypos: 0,
+      typingTimer: null,
+      minutesSpentTyping: 0,
       loading: true,
       errored: false
     }
@@ -47,9 +49,18 @@ export default {
 
     this.$refs['typing-accuracy'].textContent = "100%";
   },
+  beforeUnmount() {
+    clearInterval(this.typingTimer);
+  },
   methods: {
-    focusOnInput() {
-      //focus on hidden input
+    startTypingTest() {
+      this.focusOnInput();
+      console.log("initial minutes:" + this.minutesSpentTyping);
+      this.typingTimer = setInterval(() => {
+        this.minutesSpentTyping += 1;
+      }, 60 * 1000); 
+    },
+    focusOnInput() {//focus on hidden input
       this.$refs['typing-input'].focus();    
     },
     keyMonitor(event) {
@@ -89,6 +100,7 @@ export default {
     formattedTypingAccuracy() {
       return (this.typingAccuracy % 1 === 0)? (this.typingAccuracy + '%') : (this.typingAccuracy.toFixed(1) + '%');
     }
+    
 
     
   }
