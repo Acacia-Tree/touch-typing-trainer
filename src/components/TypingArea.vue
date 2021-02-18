@@ -13,7 +13,6 @@
     >{{letter}}</span>
   </div>
   <TypingAreaStats :formattedTypingAccuracy="formattedTypingAccuracy" :formattedPureTypingSpeed="formattedPureTypingSpeed"/>
-  
   <TypingAreaMenu @on-start="startTypingTest" @on-restart="restartTypingTest"/>
 </template>
 
@@ -31,7 +30,7 @@ export default {
     return {
       text: '',
       typedTextArray: [],
-      numberOfSentences: 1,
+      numberOfSentences: 8,
       numberOfTypos: 0,
       typingTimer: null,
       minutesSpentTyping: 0,/////
@@ -51,7 +50,6 @@ export default {
       .get('http://metaphorpsum.com/sentences/' + this.numberOfSentences)
       .then(response => {
         this.text = response.data;
-        console.log(typeof this.text);
       })
       .catch(error => {
         console.log(error);
@@ -107,8 +105,6 @@ export default {
       if (this.isTypedTextCorrect == true && this.typedTextArray.length === this.text.length) {
         this.finishedTypingTest();
       }
-      console.log("text from ac: " + this.text.length);
-      console.log("typedtext from ac: " + this.typedTextArray.length);
       if (this.minutesSpentTyping === 0 || !(this.typedTextArray.length > 0) ) {
         return 100;
       } else if ((this.typedTextArray.length - this.numberOfTypos) <= 0) {
