@@ -1,6 +1,5 @@
 <template>
-  
-  <div>
+  <menu>
     <button 
     type="button" 
     name="start" 
@@ -13,7 +12,7 @@
     name="restart" 
     @click="onRestart"
     >Заново</button>
-  </div>
+  </menu>
 </template>
 
 <script>

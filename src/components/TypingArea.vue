@@ -1,22 +1,38 @@
 <template>
-  <TypingAreaResultSign :formattedTypingAccuracy="formattedTypingAccuracy" :formattedPureTypingSpeed="formattedPureTypingSpeed"/>
-  
-  <input 
-  type="text" 
-  disabled
-  ref="typing-input" 
-  class="typing-area__input"
-  @keydown="keyMonitor">
-  
-  <div>
-    <span 
-    v-for="(letter, index) in text" 
-    :key="index"
-    >{{letter}}</span>
-  </div>
+  <main class="typing-area-wrapper">
+    <div class="typing-area">
 
-  <TypingAreaStats :formattedTypingAccuracy="formattedTypingAccuracy" :formattedPureTypingSpeed="formattedPureTypingSpeed"/>
-  <TypingAreaMenu @on-start="startTypingTest" @on-restart="restartTypingTest"/>
+    <TypingAreaResultSign 
+    v-if="isTypingTestFinished" 
+    :formattedTypingAccuracy="formattedTypingAccuracy" 
+    :formattedPureTypingSpeed="formattedPureTypingSpeed"/>
+    
+    <input 
+    class="typing-area__input"
+    type="text" 
+    disabled
+    ref="typing-input" 
+    @keydown="keyMonitor">
+    
+    <article 
+    class="typing-area__text">
+      <span 
+      class="typing-area__text-span"
+      v-for="(letter, index) in text" 
+      :key="index"
+      >{{letter}}</span>
+    </article>
+
+    <TypingAreaStats 
+    v-if="!isTypingTestFinished" 
+    :formattedTypingAccuracy="formattedTypingAccuracy" 
+    :formattedPureTypingSpeed="formattedPureTypingSpeed"/>
+
+    <TypingAreaMenu 
+    @on-start="startTypingTest" 
+    @on-restart="restartTypingTest"/>
+    </div>
+  </main>
   
 </template>
 
@@ -36,10 +52,11 @@ export default {
     return {
       text: '',
       typedTextArray: [],
-      numberOfSentences: 1,
+      numberOfSentences: 8,
       numberOfTypos: 0,
       typingTimer: null,
       minutesSpentTyping: 0,
+      isTypingTestFinished: true,//false
       loading: true,
       errored: false
     }
@@ -92,6 +109,7 @@ export default {
     finishedTypingTest() {
       clearInterval(this.typingTimer);
       this.$refs['typing-input'].readonly = true;
+      this.isTypingTestFinished = true;
     }
   },
   computed: {
@@ -138,14 +156,48 @@ export default {
     formattedPureTypingSpeed() {
       return Math.round(this.pureTypingSpeed) + ' зн./мин'
     },
-
     
   }
 }
 </script>
 
 <style>
+.typing-area-wrapper {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.typing-area {
+  min-height: 450px;
+  min-width: 320px;
+  display: flex;
+  flex-wrap: wrap;
+  background: #F3F8F1; 
+  background-clip: content-box;
+  justify-content: center;
+  border: 30px solid transparent;
+  border-image: url('../assets/grass-border.svg') 10% round;
+  margin: 0 auto;
+}
+
 .typing-area__input {
-  
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.typing-area__text {
+  max-width: 500px;
+  text-align: left;
+}
+
+.typing-area__text-span {
+
 }
 </style>
