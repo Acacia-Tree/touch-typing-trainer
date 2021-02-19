@@ -18,6 +18,9 @@ export default {
 <style>
 .typing-area__stats {
   margin-left: 40px;
+  color: green;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .typing-area__stats-accuracy {

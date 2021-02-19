@@ -30,6 +30,8 @@
     </article>
 
     <TypingAreaMenu 
+    :hasTypingTestStarted="hasTypingTestStarted"
+    :isTypingTestFinished="isTypingTestFinished"
     @on-start="startTypingTest" 
     @on-restart="restartTypingTest"/>
 
@@ -58,12 +60,12 @@ export default {
     return {
       text: '',
       typedTextArray: [],
-      numberOfSentences: 8,
+      numberOfSentences: 1,
       numberOfTypos: 0,
       typingTimer: null,
       minutesSpentTyping: 0,
       hasTypingTestStarted: false,
-      isTypingTestFinished: false,//false
+      isTypingTestFinished: true,//false
       loading: true,
       errored: false
     }
@@ -113,6 +115,7 @@ export default {
       this.numberOfTypos = 0;
       this.minutesSpentTyping = 0;
       this.typingTimer = null,
+      this.isTypingTestFinished = false;
       this.startTypingTest();
     },
     finishedTypingTest() {
@@ -211,6 +214,7 @@ export default {
   width: 100%;
   height: auto;
   text-align: left;
+  font-size: 24px;
   padding: 10px 20px
 }
 

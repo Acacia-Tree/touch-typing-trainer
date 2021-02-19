@@ -1,7 +1,8 @@
 <template>
   <menu class="typing-area__menu">
     <button 
-    class="btn btn-primary typing-area__menu-button"
+    v-if="!hasTypingTestStarted && !isTypingTestFinished"
+    class="typing-area__menu-button"
     type="button" 
     name="start" 
     ref="start-button"
@@ -9,7 +10,8 @@
     >Начать</button>
 
     <button 
-    class="btn btn-primary typing-area__menu-button"
+    v-if="hasTypingTestStarted || isTypingTestFinished"
+    class="typing-area__menu-button"
     type="button" 
     name="restart" 
     @click="onRestart"
@@ -20,6 +22,10 @@
 <script>
 export default {
   name: 'TypingAreaMenu',
+  props: {
+    isTypingTestFinished: Boolean,
+    hasTypingTestStarted: Boolean
+  },
   data() {
     return {
       h1: "Тренажер слепой печати"
@@ -43,5 +49,11 @@ export default {
 
   .typing-area__menu-button {
     margin-left: 20px; 
+    background: green;
+    color: white;
+    border-radius: 20px;
+  }
+  .typing-area__menu-button:hover {
+    background: darkgreen;
   }
 </style>
