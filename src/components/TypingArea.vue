@@ -60,12 +60,12 @@ export default {
     return {
       text: '',
       typedTextArray: [],
-      numberOfSentences: 1,
+      numberOfSentences: 8,
       numberOfTypos: 0,
       typingTimer: null,
       minutesSpentTyping: 0,
       hasTypingTestStarted: false,
-      isTypingTestFinished: true,
+      isTypingTestFinished: false,
       loading: true,
       errored: false
     }
