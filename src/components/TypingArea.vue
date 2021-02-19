@@ -23,7 +23,8 @@
       <span 
       class="typing-area__text-span"
       v-for="(letter, index) in text" 
-      :class="{'typing-area__text-span_correct': hasTypingTestStarted && letter == typedTextArray[index]}"
+      :class="[(hasTypingTestStarted && letter == typedTextArray[index])? 'typing-area__text-span_correct': '', 
+      (hasTypingTestStarted && (index == typedTextArray.length) && !isTypedTextCorrect)? 'typing-area__text-span_error': '' ]" 
       :key="index"
       >{{letter}}</span>
     </article>
@@ -222,4 +223,9 @@ export default {
   border-image: url('../assets/floral-border.svg') 30% round;
   color: green;
 }
+.typing-area__text-span_error {
+  background: red;
+  color: white;
+}
+
 </style>
