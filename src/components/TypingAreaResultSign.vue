@@ -38,6 +38,16 @@ export default {
   }
 
   .typing-area__result-sign-button {
+    min-height: 80px;
+    min-width: 140px;
+    background-color: transparent;
+    background: url('../assets/leaf-single.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border-color: transparent;
+    color: white;
+    font-size: 20px;
     
   }
 

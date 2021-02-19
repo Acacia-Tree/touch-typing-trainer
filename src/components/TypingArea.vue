@@ -65,7 +65,7 @@ export default {
       typingTimer: null,
       minutesSpentTyping: 0,
       hasTypingTestStarted: false,
-      isTypingTestFinished: true,//false
+      isTypingTestFinished: true,
       loading: true,
       errored: false
     }
