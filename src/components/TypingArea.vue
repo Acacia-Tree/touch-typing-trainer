@@ -13,14 +13,17 @@
     disabled
     ref="typing-input" 
     @keydown="keyMonitor">
+
     <h2 
     class="typing-area__h2"
-    v-if="hasTypingTestStarted">Начинайте печатать текст</h2>
+    v-if="hasTypingTestStarted && !isTypingTestFinished">Начинайте печатать текст</h2>
+
     <article 
     class="typing-area__text">
       <span 
       class="typing-area__text-span"
       v-for="(letter, index) in text" 
+      :class="{'typing-area__text-span_correct': hasTypingTestStarted && letter == typedTextArray[index]}"
       :key="index"
       >{{letter}}</span>
     </article>
@@ -212,5 +215,11 @@ export default {
 
 .typing-area__text-span {
 
+}
+
+.typing-area__text-span_correct {
+  border: 10px solid transparent;
+  border-image: url('../assets/floral-border.svg') 30% round;
+  color: green;
 }
 </style>
