@@ -1,24 +1,31 @@
 # touch-typing-trainer
 
-## Project setup
+## Для локального клонирования репозитория
 ```
-npm install
+git clone https://github.com/Acacia-Tree/touch-typing-trainer.git
 ```
 
-### Compiles and hot-reloads for development
+### Для установки Vue 3:
+```
+npm i -g @vue/cli 
+
+npm i -g @vue/cli-service-global
+```
+
+### Для запуска локального сервера:
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Для установки Boostrap 5:
 ```
-npm run build
+npm i @popperjs/core
+npm install bootstrap@next
+
 ```
 
-### Lints and fixes files
+### Для установки Axios
 ```
-npm run lint
-```
+npm i vue-axios
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```
