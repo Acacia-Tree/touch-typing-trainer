@@ -1,6 +1,7 @@
 <template>
-  <menu>
+  <menu class="typing-area__menu">
     <button 
+    class="btn btn-primary typing-area__menu-button"
     type="button" 
     name="start" 
     ref="start-button"
@@ -8,6 +9,7 @@
     >Начать</button>
 
     <button 
+    class="btn btn-primary typing-area__menu-button"
     type="button" 
     name="restart" 
     @click="onRestart"
@@ -35,5 +37,11 @@ export default {
 </script>
 
 <style>
+  .typing-area__menu {
 
+  }
+
+  .typing-area__menu-button {
+    margin-left: 20px; 
+  }
 </style>

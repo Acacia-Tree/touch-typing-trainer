@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <span>{{formattedTypingAccuracy}} </span>
-    <br>
-    <span> {{formattedPureTypingSpeed}}</span>
+  <div class="typing-area__stats">
+    <span class="typing-area__stats-accuracy">{{formattedTypingAccuracy}} </span>
+    <span class="typing-area__stats-speed"> {{formattedPureTypingSpeed}}</span>
   </div>
 </template>
 
@@ -16,5 +15,17 @@ export default {
 }
 </script>
 
-<style >
+<style>
+.typing-area__stats {
+  margin-left: 40px;
+}
+
+.typing-area__stats-accuracy {
+
+}
+
+.typing-area__stats-speed {
+  margin-left: 20px;
+
+}
 </style>

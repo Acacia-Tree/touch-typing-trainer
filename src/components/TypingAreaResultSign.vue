@@ -61,7 +61,6 @@ export default {
   }
   .typing-area__result-text-span {
     display: block;
-    font-family: "Playfair Display", "Georgia", serif;
     font-weight: bold;
     font-size: max(16px, 1.2vmax);
     line-height: 120%;
@@ -76,7 +75,6 @@ export default {
     color: transparent;
   }
   .typing-area__result-text-main {
-    font-family: "Playfair Display", "Georgia", serif;
     font-weight: bold;
     font-size: max(19px, 1.65vmax);
     line-height: 145%;

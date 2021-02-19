@@ -13,7 +13,9 @@
     disabled
     ref="typing-input" 
     @keydown="keyMonitor">
-    
+    <h2 
+    class="typing-area__h2"
+    v-if="hasTypingTestStarted">Начинайте печатать текст</h2>
     <article 
     class="typing-area__text">
       <span 
@@ -23,14 +25,14 @@
       >{{letter}}</span>
     </article>
 
+    <TypingAreaMenu 
+    @on-start="startTypingTest" 
+    @on-restart="restartTypingTest"/>
+
     <TypingAreaStats 
     v-if="!isTypingTestFinished" 
     :formattedTypingAccuracy="formattedTypingAccuracy" 
     :formattedPureTypingSpeed="formattedPureTypingSpeed"/>
-
-    <TypingAreaMenu 
-    @on-start="startTypingTest" 
-    @on-restart="restartTypingTest"/>
     </div>
   </main>
   
@@ -56,7 +58,8 @@ export default {
       numberOfTypos: 0,
       typingTimer: null,
       minutesSpentTyping: 0,
-      isTypingTestFinished: true,//false
+      hasTypingTestStarted: false,
+      isTypingTestFinished: false,//false
       loading: true,
       errored: false
     }
@@ -86,6 +89,8 @@ export default {
       }, 1000); 
       this.$refs['typing-input'].disabled = false;
       this.$refs['typing-input'].focus(); 
+      this.hasTypingTestStarted = true;
+
     },
     keyMonitor(event) {
       if (event.key != "Shift" && event.key != "Enter") {//не ошибка
@@ -176,6 +181,7 @@ export default {
   background: #F3F8F1; 
   background-clip: content-box;
   justify-content: center;
+  align-items: center;
   border: 30px solid transparent;
   border-image: url('../assets/grass-border.svg') 10% round;
   margin: 0 auto;
@@ -192,9 +198,16 @@ export default {
     width: 1px;
 }
 
+.typing-area__h2 {
+  color: green;
+}
+
 .typing-area__text {
-  max-width: 500px;
+  min-width: 500px;
+  width: 100%;
+  height: auto;
   text-align: left;
+  padding: 10px 20px
 }
 
 .typing-area__text-span {
